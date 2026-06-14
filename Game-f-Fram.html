@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🌾 Idle Happy Farm</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="game-header">
+            <h1>🌾 Idle Happy Farm</h1>
+            <div class="header-controls">
+                <div id="stats">💰 เงิน: 500 | ⚡ x1.0 | 🐔 +0/วินาที</div>
+                <div id="soundControls"><button onclick="toggleBGM()">🎵 เพลงพื้นหลัง</button></div>
+            </div>
+        </header>
+
+        <!-- Main Workspace Layout -->
+        <main class="game-layout">
+            <!-- Left Column: Farm Grid & Seasons -->
+            <section class="left-panel">
+                <div id="calendar" class="card">
+                    <div class="calendar-header">
+                        <strong>📅 ปฏิทินฤดูกาล</strong>
+                        <span id="seasonCooldown" class="cooldown-badge">⌛ 02:00</span>
+                    </div>
+                    <div class="season-bar">
+                        <div id="seasonProgress" class="progress-season" style="width:0%"></div>
+                    </div>
+                    <div id="seasonList" class="season-list"></div>
+                </div>
+
+                <div id="message"></div>
+                <div id="farm"></div>
+            </section>
+
+            <!-- Right Column: Tabs (Shop, Animals, Animal Shop, Market) -->
+            <section class="right-panel">
+                <div class="tabs-container">
+                    <nav class="tab-buttons">
+                        <button class="tab-button active" onclick="switchTab('tab-overview', this)">🏡
+                            หน้าฟาร์ม</button>
+                        <button class="tab-button" onclick="switchTab('tab-seeds', this)">🌱 เมล็ด & ตลาด</button>
+                        <button class="tab-button" onclick="switchTab('tab-animals', this)">🐾 สัตว์เลี้ยง</button>
+                        <button class="tab-button" onclick="switchTab('tab-buy-animals', this)">🏪 ร้านค้า</button>
+                        <button class="tab-button" onclick="switchTab('tab-mining', this)">⛏️ เหมือง & วัสดุ</button>
+                    </nav>
+
+                    <div class="tab-contents">
+                        <!-- Tab 0: Farm Overview -->
+                        <div id="tab-overview" class="tab-content active">
+                            <h3>🏡 สรุปภาพรวมฟาร์ม</h3>
+                            <div class="scrollable-list">
+                                <div class="overview-dashboard"
+                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                                    <div class="dashboard-card card" style="margin-bottom: 0;">
+                                        <h4>🌾 พื้นที่ฟาร์ม</h4>
+                                        <div id="farmSummaryOverview">จำนวนแปลงปลูกทั้งหมด: 0<br>กำลังปลูก:
+                                            0<br>พร้อมเก็บเกี่ยว: 0</div>
+                                            <h4>🐾 คอกสัตว์</h4>
+                                        <div id="animalSummaryOverview">จำนวนสัตว์เลี้ยง: 0 ตัว<br>ผลผลิตรวมต่อวินาที:
+                                            +0
+                                        </div>
+                                    </div>
+
+                                    <div class="dashboard-card card" style="margin-bottom: 0;">
+                                        <h4>🏭 สิ่งปลูกสร้างเพิ่มเติม</h4>
+                                        <div id="buildingsSummaryOverview"></div>
+                                    </div>
+                                </div>
+                                <!-- พื้นที่กราฟิกจำลองฟาร์ม -->
+                                <div id="farm-map-visual"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 1: Seed Shop -->
+                        <div id="tab-seeds" class="tab-content">
+                            <h3>🌱 ร้านเมล็ดพันธุ์ และ อุปกรณ์</h3>
+                            <div id="shopItems" class="scrollable-list"></div>
+                            <hr style="border: 0; border-top: 2px dashed rgba(255,255,255,0.2); margin: 15px 0;">
+                            <h3>🚚 ตลาดรับซื้อผัก (ราคาผันผวน)</h3>
+                            <div id="marketPrices" class="scrollable-list"></div>
+                        </div>
+
+                        <!-- Tab 2: Active Animals & Feed mixing -->
+                        <div id="tab-animals" class="tab-content">
+                            <h3>🐾 คอกสัตว์เลี้ยง</h3>
+                            <div id="animalList" class="scrollable-list"></div>
+                        </div>
+
+                        <!-- Tab 3: Animal Shop -->
+                        <div id="tab-buy-animals" class="tab-content">
+                            <h3>🏪 ร้านค้าฟาร์ม (สัตว์, อุปกรณ์, สิ่งปลูกสร้าง)</h3>
+                            <div id="animalShop" class="scrollable-list"></div>
+                        </div>
+
+                        <!-- Tab 4: Mining & Materials -->
+                        <div id="tab-mining" class="tab-content">
+                            <h3>⛏️ เหมืองแร่ และ โรงคราฟท์วัสดุ</h3>
+                            <div id="miningContainer" class="scrollable-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="animals.js"></script>
+    <script src="shop.js"></script>
+    <script src="season.js"></script>
+    <script src="mining.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
