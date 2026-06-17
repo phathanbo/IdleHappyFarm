@@ -127,7 +127,7 @@ function getMineUpgradeHtml() {
                 <li style="background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; color: ${goldBarStock >= goldCost ? '#86efac' : '#fca5a5'}">🌟 ทองแท่ง: ${goldCost.toLocaleString()} (มี ${goldBarStock.toLocaleString()})</li>
                 <li style="background: rgba(0,0,0,0.3); padding: 6px; border-radius: 8px; color: ${money >= moneyCost ? '#86efac' : '#fca5a5'}">💰 เงิน: ${moneyCost.toLocaleString()} บ. (มี ${Math.floor(money).toLocaleString()})</li>
             </ul>
-            <button onclick="upgradeMine()" ${!canUpgrade ? 'disabled style="background: linear-gradient(180deg, #64748b, #334155); cursor: not-allowed;"' : 'style="background: linear-gradient(180deg, #3b82f6, #1d4ed8);"'} style="color: white; width: 100%; padding: 12px;">
+            <button onclick="upgradeMine()" ${!canUpgrade ? 'disabled' : ''} style="${!canUpgrade ? 'background: linear-gradient(180deg, #64748b, #334155); cursor: not-allowed;' : 'background: linear-gradient(180deg, #3b82f6, #1d4ed8);'} color: white; width: 100%; padding: 12px;">
                 ${canUpgrade ? '✨ อัพเกรดเหมืองเลย!' : '🔒 ทรัพยากรไม่พออัพเกรด'}
             </button>
         </div>
