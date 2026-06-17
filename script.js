@@ -285,7 +285,7 @@ function updateFarmOverview() {
     // สร้างแผนที่กราฟิกจำลองพื้นที่ฟาร์ม
     const mapContainer = document.getElementById('farm-map-visual');
     if (mapContainer) {
-        let mapHtml = `<div class="farm-map-layout" style="display: flex flex-direction: column; gap: 1px; max-width: 380px; overflow: auto; padding: 10px;">`;
+        let mapHtml = `<div class="farm-map-layout" style="display: flex; flex-direction: column; gap: 1px; max-width: 380px; overflow: auto; padding: 10px;">`;
         const zoneStyle = "background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.3);";
 
         // แผนที่แปลงปลูกผัก
@@ -361,7 +361,7 @@ function renderFarm() {
             controlsHtml += `<button onclick="waterAllPlots()" style="padding: 10px 20px; background-color: #0288d1; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">💦 รดน้ำทั้งหมด</button>`;
         }
         if (bulkFertilizerRented) {
-            controlsHtml += `<button onclick="fertilizeAllPlots()" style="padding: 10px 20px; background-color: #8d6e63; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">💩 ใส่ปุ๋yทั้งหมด</button>`;
+            controlsHtml += `<button onclick="fertilizeAllPlots()" style="padding: 10px 20px; background-color: #8d6e63; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">💩 ใส่ปุ๋ยทั้งหมด</button>`;
         }
         controlsHtml += `<button onclick="sellAllToMarket()" style="padding: 10px 20px; background-color: #ff6b6b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">🚚 เก็บเกี่ยวและขายทั้งหมด</button>`;
     }
@@ -1202,7 +1202,7 @@ window.harvestAllTrees = function () {
         currentSeasonIncome += totalValue;
         totalLifetimeIncome += totalValue;
         seasonDetails.inCrops += totalValue;
-        feedStock += totalFeed;
+        feedStock = Math.min(window.getMaxFeed(), feedStock + totalFeed);
 
         playSound('harvest');
         showMessage(`🎉 เก็บผลผลิตต้นไม้ได้ทั้งหมด: +${totalValue} บาท (+${totalFeed} Feed)`);
@@ -1422,6 +1422,7 @@ window.levelUp = function (i) {
     currentSeasonExpense += cost;
     seasonDetails.exUpgrades += cost;
     veggieLevels[i] = Math.min(veggieLevels[i] + 1, 100);
+    playSound('levelup');
     showMessage(`✅ ${baseVeggies[i].name} เลเวล ${veggieLevels[i]}`);
     renderShop(); saveGame();
 };
@@ -2099,7 +2100,7 @@ window.finishContest = function (idx, aIdx, contestScore) {
     farmReputation += repGained;
 
     // ปรับอัปเดตเลเวลประกวด โดยจำกัดไม่ให้ต่ำกว่า 0
-    animal.contestLevel = Math.max(0, animal.contestLevel + levelChange);
+    animal.contestLevel = Math.max(0, Math.floor(animal.contestLevel + levelChange));
 
     animal.inContest = false;
     animal.contestReady = false;
